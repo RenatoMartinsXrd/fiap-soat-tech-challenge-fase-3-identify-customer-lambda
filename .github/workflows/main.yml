@@ -8,6 +8,10 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    env:
+      DB_URL: ${{ secrets.DB_URL }}
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
     steps:
       - name: Checkout do código
@@ -19,7 +23,7 @@ jobs:
           distribution: 'corretto'
           java-version: '21'
 
-      - name: Compilar o projeto com Maven
+      - name: Compilar o projeto com Mavena
         run: mvn clean package -DskipTests
         working-directory: app
 
