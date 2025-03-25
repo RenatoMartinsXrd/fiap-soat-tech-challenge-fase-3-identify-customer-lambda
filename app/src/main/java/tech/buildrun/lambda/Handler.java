@@ -53,21 +53,27 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
 
     private String findCustomerByCpf(String cpf) {
         String sql = "SELECT id, name, cpf, email FROM customers WHERE cpf = ?";
-        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+        try {
+            Class.forName("org.postgresql.Driver");
 
-            statement.setString(1, cpf);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return String.format("{\"id\": \"%s\", \"name\": \"%s\", \"cpf\": \"%s\", \"email\": \"%s\"}",
-                            resultSet.getString("id"),
-                            resultSet.getString("name"),
-                            resultSet.getString("cpf"),
-                            resultSet.getString("email"));
+            try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+                 PreparedStatement statement = connection.prepareStatement(sql)) {
+
+                statement.setString(1, cpf);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        return String.format("{\"id\": \"%s\", \"name\": \"%s\", \"cpf\": \"%s\", \"email\": \"%s\"}",
+                                resultSet.getString("id"),
+                                resultSet.getString("name"),
+                                resultSet.getString("cpf"),
+                                resultSet.getString("email"));
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
         return null;
     }
