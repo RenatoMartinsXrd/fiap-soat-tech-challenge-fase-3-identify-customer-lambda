@@ -39,5 +39,4 @@ jobs:
           aws lambda update-function-code \
             --function-name identifyCreateCustomerLambda \
             --zip-file fileb://target/aws-lambda-java-starter-example-0.0.1.jar
-            --environment "Variables={DB_URL=${{ secrets.DB_URL }},DB_USER=${{ secrets.DB_USER }},DB_PASSWORD=${{ secrets.DB_PASSWORD }}"
         working-directory: app 
