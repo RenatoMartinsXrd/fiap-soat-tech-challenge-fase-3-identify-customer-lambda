@@ -38,6 +38,7 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
             }
 
             String customerData = findCustomerByCpf(cpf);
+            System.out.println("consulta realizada");
             if (customerData != null) {
                 return createResponse(200, customerData);
             }
