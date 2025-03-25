@@ -1,0 +1,36 @@
+name: Deploy Java AWS Lambda
+
+on:
+  push:
+    branches:
+      - main  # Executa quando houver push na branch main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Configurar o JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: '21'
+
+      - name: Compilar o projeto com Maven
+        run: mvn clean package -DskipTests
+
+      - name: Configurar credenciais da AWS
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1  # Modifique para a região da sua Lambda
+      
+      - name: Atualizar a função Lambda
+        run: |
+          aws lambda update-function-code \
+            --function-name identifyCreateCustomerLambda \
+            --zip-file fileb://target/aws-lambda-java-starter-example-0.0.1.jar
