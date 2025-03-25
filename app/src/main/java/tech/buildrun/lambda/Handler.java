@@ -19,7 +19,7 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
     private static final String DB_URL = System.getenv("DB_URL");
     private static final String DB_USER = System.getenv("DB_USER");
     private static final String DB_PASSWORD = System.getenv("DB_PASSWORD");
-    private static final String API_URL = "https://w8eknaea3f.execute-api.us-east-1.amazonaws.com/tech-challenge/customers/identifyOrCreate";
+    private static final String API_URL = "http://tech-challenge-nlb-internal-f3390e49f4d9a566.elb.us-east-1.amazonaws.com/customers/identifyOrCreate";
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
