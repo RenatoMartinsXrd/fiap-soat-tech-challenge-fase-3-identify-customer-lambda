@@ -52,7 +52,7 @@ public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, APIG
     }
 
     private String findCustomerByCpf(String cpf) {
-        String sql = "SELECT id, name, cpf, email FROM customers WHERE cpf = ?";
+        String sql = "SELECT id, name, cpf, email FROM customer_entity WHERE cpf = ?";
         try {
             Class.forName("org.postgresql.Driver");
 
